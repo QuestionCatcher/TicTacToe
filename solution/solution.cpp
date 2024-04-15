@@ -1,4 +1,4 @@
-//system wiadmosci
+//system wiadmości
 //system tablicy do gry
 //system 2 graczy X oraz O
 
@@ -13,7 +13,7 @@ void newPlayer(string& playerName, char& symbol){
     cout << "Player symbol: \n";
     cin >> symbol;
 };
-//function to 
+//function to choose Starting Player
 string chooseStartingPlayer(const string& player1, const string& player2){
     int randomNum;
     randomNum = rand() % 2;
@@ -25,17 +25,14 @@ string chooseStartingPlayer(const string& player1, const string& player2){
     
 }
 
-void createBoard()
-{
-    
-    int board[3][3]{{7, 8, 9}, {4, 5, 6}, {1, 2, 3}};
-    {
-        for (int i = 0; i < 3; i++){
-            for (int j = 0; j < 3; j++){
-                cout << board[i][j] << " ";
-            }
-            cout << "\n";
-        }  
+void createBoard() {
+    int board[9]{1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            cout << board[i * 3 + j] << " ";
+        }
+        cout << "\n";
     }
 }
 string sendMessages(const string& situation)
