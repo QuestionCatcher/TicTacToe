@@ -1,93 +1,120 @@
 #include <iostream>
-#include <string>
-#include <cstdlib>
-#include <ctime>
+
 using namespace std;
-void createBoard() {
-    int board[9]{0, 1, 2, 3, 4, 5, 6, 7, 8};
+int x;
+string board[9]{" ", " ", " ", " ", " ", " ", " ", " ", " "};
+string sign{"x"};
+void print_board(){
+	cout << "| " + board[6] + "| " + board[7] + "| " + board[8] + "|\n";
+	cout << "----------\n";
+	cout << "| " + board[3] + "| " + board[4] + "| " + board[5] + "|\n";
+	cout << "----------\n";
+	cout << "| " + board[0] + "| " + board[1] + "| " + board[2] + "|\n";
+}
 
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            cout << board[i * 3 + j] << " ";
-        }
-        cout << "\n";
-    }
-}
-void newPlayer(string& playerName, char& symbol){
-    cout << "Player name: \n";
-    cin >> playerName;
-    cout << "Player symbol: \n";
-    cin >> symbol;
-};
-//function to choose Starting Player
-string initializeWithRandomOneOrTwo() {
-        srand(static_cast<unsigned int>(time(nullptr))); // Seed the random generator
-        int randomNum = rand() % 2 + 1; // Generate random number 1 or 2
-        return to_string(randomNum);    // Convert int to string and return
-    }
-string chooseStartingPlayer(const string& player1, const string& player2){
-        string randomChoice = initializeWithRandomOneOrTwo();
-        if (randomChoice == "1"){
-            return player1;
-        } else
-        {
-            return player2;
-        }
-}
-bool is_winner(string board[9])
+void player_move()
 {
-    if (board[0] == board[1] && board[1] == board[2] && board[0] != " " ||
-        board[3] == board[4] && board[4] == board[5] && board[3] != " " ||
-        board[6] == board[7] && board[7] == board[8] && board[6] != " " ||
-        board[0] == board[3] && board[3] == board[6] && board[0] != " " ||
-        board[1] == board[4] && board[4] == board[7] && board[1] != " " ||
-        board[2] == board[5] && board[5] == board[8] && board[2] != " " ||
-        board[0] == board[4] && board[4] == board[8] && board[0] != " " ||
-        board[2] == board[4] && board[4] == board[6] && board[2] != " ")
-    {
-        return true;
-    }
-    return false;
+	cin >> x; // Ask for input
+	// Check if input is out of range or field is already taken
+	while (x > 9 || x < 1 || board[x - 1] != " ")
+	{
+		// If input is out of range print message and ask again for input
+		if (x > 9 || x < 1)
+		{
+			cout << "Wrong number. Pick a number between 1 and 9 (including)\n";
+			cin >> x;
+			// Continue to skip another if
+			continue;
+		}
+
+		// If field is already taken print message and ask again for input
+		if (board[x - 1] != " ")
+		{
+			cout << "Field is already taken. Choose another one\n";
+			cin >> x;
+		}
+	}
 }
-int main(int argc, char* argv[]) {
-    string player1Name, player2Name;
-    char player1Symbol, player2Symbol;
+void change_sing()
+{
+	// Change sign
+	if (sign == "x")
+	{
+		sign = "o";
+	}
+	else
+	{
+		sign = "x";
+	}
+}
 
-    newPlayer(player1Name, player1Symbol);
-    newPlayer(player2Name, player2Symbol);
+void update_board()
+{
+	
+	// Update board
+	board[x - 1] = sign;
 
-    const string startingPlayer = chooseStartingPlayer(player1Name, player2Name);
+	// Print updated baord
+	cout << "|" + board[6] + "|" + board[7] + "|" + board[8] + "|\n";
+	cout << "-------\n";
+	cout << "|" + board[3] + "|" + board[4] + "|" + board[5] + "|\n";
+	cout << "-------\n";
+	cout << "|" + board[0] + "|" + board[1] + "|" + board[2] + "|\n";
+}
 
-    cout << "Gracz " << startingPlayer << " rozpoczyna gre! \n";
-    createBoard();
+bool check_winner(string board[9], string sign)
+{
+	if ((board[0] == board[1] && board[1] == board[2] && board[0] != " " ||
+		board[3] == board[4] && board[4] == board[5] && board[3] != " " ||
+		board[6] == board[7] && board[7] == board[8] && board[6] != " " ||
+		board[0] == board[3] && board[3] == board[6] && board[0] != " " ||
+		board[1] == board[4] && board[4] == board[7] && board[1] != " " ||
+		board[2] == board[5] && board[5] == board[8] && board[2] != " " ||
+		board[0] == board[4] && board[4] == board[8] && board[0] != " " ||
+		board[2] == board[4] && board[4] == board[6] && board[2] != " "))
+		{
+			cout << "winner is: " + sign + "\n";
+			return true;
+		}
+		return false;
+}
 
-    int currentPlayer = 1;
-    while (true) {
-        if (currentPlayer == 1) {
-            cout << "Ruch wykonuje " << player1Name << endl;
-            int x;
-            cout << "Podaj numer pola: \n";
-            cin >> x;
-            string board;
-            board[x] = player2Symbol;
-            
-            //zmiana gracza(chyba XD)
-            currentPlayer = 2;
-        } else {
-            cout << "Ruch wykonuje " << player2Name << endl;
+bool check_draw(string board[9])
+{
+	for (int i = 0; i < 9; i++)
+	{
+		if (board[i] == " ") {
+			return false; // Jeśli znaleźliśmy puste pole, to plansza nie jest pełna
+		}
+	}
+	cout << "Draw\n";
+	return true;
+}
 
-            int x;
-            cout << "Podaj numer pola: \n";
-            cin >> x;
-            string board;
-            board[x] = player2Symbol;
-            currentPlayer = 1;
-        }
+void game_loop()
+{
+	while (true)
+	{
+		player_move();
+		change_sing();
+		update_board();
 
-        //wyswietla tablice co ruch
-        createBoard();
-        //tutaj jakiś warunek (wygrany etc)
-    }
+		if (check_winner(board, sign))
+		{
+			break;
+		}
 
-    return 0;
+		if (check_draw(board))
+		{
+			break;
+		}
+	}
+}
+int main()
+{
+	print_board();
+	// Main game loop
+	game_loop();
+
+	return 0;
 }
