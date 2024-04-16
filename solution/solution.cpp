@@ -5,11 +5,11 @@ int x;
 string board[9]{" ", " ", " ", " ", " ", " ", " ", " ", " "};
 string sign{"x"};
 void print_board(){
-	cout << "| " + board[6] + "| " + board[7] + "| " + board[8] + "|\n";
+	cout << "|" + board[6] + "| " + board[7] + "| " + board[8] + "|\n";
 	cout << "----------\n";
-	cout << "| " + board[3] + "| " + board[4] + "| " + board[5] + "|\n";
+	cout << "|" + board[3] + "| " + board[4] + "| " + board[5] + "|\n";
 	cout << "----------\n";
-	cout << "| " + board[0] + "| " + board[1] + "| " + board[2] + "|\n";
+	cout << "|" + board[0] + "| " + board[1] + "| " + board[2] + "|\n";
 }
 
 void player_move()
@@ -110,11 +110,34 @@ void game_loop()
 		}
 	}
 }
+void clear_board() {
+	for (int i = 0; i < 9; i++) {
+		board[i] = " ";
+	}
+}
+bool new_game(string question){
+	
+	cout << question << "(tak/nie): ";
+	string answer;
+	cin >> answer;
+
+	return (answer == "tak");
+}
 int main()
 {
+	bool tak = true;
 	print_board();
 	// Main game loop
 	game_loop();
-
+	if (new_game("Czy chcesz zagrac jeszcze raz?"))
+	{
+		cout << "Wybrales Tak. \n";
+		clear_board();
+		print_board();
+		game_loop();
+	} else {
+		cout << "Wybrales Nie. \n";
+	}
+	
 	return 0;
 }
