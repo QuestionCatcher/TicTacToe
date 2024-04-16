@@ -117,27 +117,29 @@ void clear_board() {
 }
 bool new_game(string question){
 	
-	cout << question << "(tak/nie): ";
+	cout << question << " (yes/no): ";
 	string answer;
 	cin >> answer;
 
-	return (answer == "tak");
+	return (answer == "yes");
 }
 int main()
 {
-	bool tak = true;
-	print_board();
-	// Main game loop
-	game_loop();
-	if (new_game("Czy chcesz zagrac jeszcze raz?"))
-	{
-		cout << "Wybrales Tak. \n";
-		clear_board();
+	bool play_again = true;
+
+	do {
 		print_board();
 		game_loop();
-	} else {
-		cout << "Wybrales Nie. \n";
-	}
-	
+		if (new_game("Do you want to play again?"))
+		{
+			cout << "Let's play again! \n";
+			clear_board();
+		} else
+		{
+			cout << "See you later! o/ \n";
+			play_again = false;
+		}
+	} while (play_again == true);
+
 	return 0;
 }
