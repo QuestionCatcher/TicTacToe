@@ -5,11 +5,11 @@ int x;
 string board[9]{" ", " ", " ", " ", " ", " ", " ", " ", " "};
 string sign{"x"};
 void print_board(){
-	cout << "|" + board[6] + "| " + board[7] + "| " + board[8] + "|\n";
-	cout << "----------\n";
-	cout << "|" + board[3] + "| " + board[4] + "| " + board[5] + "|\n";
-	cout << "----------\n";
-	cout << "|" + board[0] + "| " + board[1] + "| " + board[2] + "|\n";
+	cout << "|" + board[6] + "|" + board[7] + "|" + board[8] + "|\n";
+	cout << "-------\n";
+	cout << "|" + board[3] + "|" + board[4] + "|" + board[5] + "|\n";
+	cout << "-------\n";
+	cout << "|" + board[0] + "|" + board[1] + "|" + board[2] + "|\n";
 }
 
 void player_move()
@@ -55,11 +55,11 @@ void update_board()
 	board[x - 1] = sign;
 
 	// Print updated baord
-	cout << "|" + board[6] + "|" + board[7] + "|" + board[8] + "|\n";
+	cout << "|" + board[0] + "|" + board[1] + "|" + board[2] + "|\n";
 	cout << "-------\n";
 	cout << "|" + board[3] + "|" + board[4] + "|" + board[5] + "|\n";
 	cout << "-------\n";
-	cout << "|" + board[0] + "|" + board[1] + "|" + board[2] + "|\n";
+	cout << "|" + board[6] + "|" + board[7] + "|" + board[8] + "|\n";
 }
 
 bool check_winner(string board[9], string sign)
