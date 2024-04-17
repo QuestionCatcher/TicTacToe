@@ -76,8 +76,9 @@ void update_board()
 	cout << "|" + board[6] + "|" + board[7] + "|" + board[8] + "|\n";
 }
 
-bool check_winner(string board[9], string sign, string winner_name, string winner_sign)
+bool check_winner()
 {	//check board to find a winner in every possible pattern to win.
+	string winner_name, winner_sign;
 	if ((board[0] == board[1] && board[1] == board[2] && board[0] != " " ||
 		board[3] == board[4] && board[4] == board[5] && board[3] != " " ||
 		board[6] == board[7] && board[7] == board[8] && board[6] != " " ||
@@ -94,13 +95,13 @@ bool check_winner(string board[9], string sign, string winner_name, string winne
 			winner_name = player2_name;
 			winner_sign = player2_sign;
 		}
-		cout << "Winner is: " << winner_name << " with sign: " << winner_sign << endl;
+		cout << "Winner is: " << winner_name << " with sign: " << winner_sign << "\n";
 		return true;
 		}
 		return false;
 }
 
-bool check_draw(string board[9])
+bool check_draw()
 {
 	for (int i = 0; i < 9; i++)
 	{
@@ -122,12 +123,12 @@ void game_loop()
 		update_board();
 
 		string winner_name, winner_sign;
-        if (check_winner(board, sign, winner_name, winner_sign))
+        if (check_winner())
 		{
 			break;
 		}
 
-		if (check_draw(board))
+		if (check_draw())
 		{
 			break;
 		}
