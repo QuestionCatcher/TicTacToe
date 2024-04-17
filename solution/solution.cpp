@@ -4,6 +4,20 @@ using namespace std;
 int x;
 string board[9]{" ", " ", " ", " ", " ", " ", " ", " ", " "};
 string sign{"x"};
+
+string player1_name, player2_name;
+string player1_sign = "x";
+string player2_sign = "o";
+void get_player_names() {
+	cout << "Player 1 name: ";
+	cin >> player1_name;
+	 
+	cout << "Player 2 name: ";
+	cin >> player2_name;
+}
+
+
+
 void print_board(){
 	cout << "|" + board[6] + "|" + board[7] + "|" + board[8] + "|\n";
 	cout << "-------\n";
@@ -62,8 +76,8 @@ void update_board()
 	cout << "|" + board[6] + "|" + board[7] + "|" + board[8] + "|\n";
 }
 
-bool check_winner(string board[9], string sign)
-{
+bool check_winner(string board[9], string sign, string winner_name, string winner_sign)
+{	//check board to find a winner in every possible pattern to win.
 	if ((board[0] == board[1] && board[1] == board[2] && board[0] != " " ||
 		board[3] == board[4] && board[4] == board[5] && board[3] != " " ||
 		board[6] == board[7] && board[7] == board[8] && board[6] != " " ||
@@ -73,8 +87,15 @@ bool check_winner(string board[9], string sign)
 		board[0] == board[4] && board[4] == board[8] && board[0] != " " ||
 		board[2] == board[4] && board[4] == board[6] && board[2] != " "))
 		{
-			cout << "winner is: " + sign + "\n";
-			return true;
+		if (sign == player1_sign) {
+			winner_name = player1_name;
+			winner_sign = player1_sign;
+		} else {
+			winner_name = player2_name;
+			winner_sign = player2_sign;
+		}
+		cout << "Winner is: " << winner_name << " with sign: " << winner_sign << endl;
+		return true;
 		}
 		return false;
 }
@@ -84,7 +105,7 @@ bool check_draw(string board[9])
 	for (int i = 0; i < 9; i++)
 	{
 		if (board[i] == " ") {
-			return false; // Jeśli znaleźliśmy puste pole, to plansza nie jest pełna
+			return false; //empty spot means board is not full
 		}
 	}
 	cout << "Draw\n";
@@ -93,13 +114,15 @@ bool check_draw(string board[9])
 
 void game_loop()
 {
+
 	while (true)
 	{
 		player_move();
 		change_sing();
 		update_board();
 
-		if (check_winner(board, sign))
+		string winner_name, winner_sign;
+        if (check_winner(board, sign, winner_name, winner_sign))
 		{
 			break;
 		}
@@ -128,6 +151,10 @@ int main()
 	bool play_again = true;
 
 	do {
+		get_player_names();
+
+		cout << "Lets start the game between Player 1: " << player1_name << " (sign: " << player1_sign << ") and Player 2: "
+		<< player2_name << " (sign: " << player2_sign << ") Good Luck! \n";
 		print_board();
 		game_loop();
 		if (new_game("Do you want to play again?"))
