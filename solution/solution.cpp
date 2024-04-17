@@ -19,6 +19,8 @@ void get_player_names() {
 
 
 void print_board(){
+	cout << "Lets start the game between Player 1: " << player1_name << " (sign: " << player1_sign << ") and Player 2: "
+	<< player2_name << " (sign: " << player2_sign << ") Good Luck! \n";
 	cout << "|" + board[6] + "|" + board[7] + "|" + board[8] + "|\n";
 	cout << "-------\n";
 	cout << "|" + board[3] + "|" + board[4] + "|" + board[5] + "|\n";
@@ -113,7 +115,7 @@ bool check_draw()
 	return true;
 }
 
-void game_loop()
+void start_game()
 {
 
 	while (true)
@@ -134,11 +136,7 @@ void game_loop()
 		}
 	}
 }
-void clear_board() {
-	for (int i = 0; i < 9; i++) {
-		board[i] = " ";
-	}
-}
+
 bool new_game(string question){
 	
 	cout << question << " (yes/no): ";
@@ -147,27 +145,39 @@ bool new_game(string question){
 
 	return (answer == "yes");
 }
-int main()
+
+void clear_board() {
+	for (int i = 0; i < 9; i++) {
+		board[i] = " ";
+	}
+}
+
+void game_loop()
 {
 	bool play_again = true;
-
 	do {
-		get_player_names();
-
-		cout << "Lets start the game between Player 1: " << player1_name << " (sign: " << player1_sign << ") and Player 2: "
-		<< player2_name << " (sign: " << player2_sign << ") Good Luck! \n";
-		print_board();
-		game_loop();
 		if (new_game("Do you want to play again?"))
 		{
 			cout << "Let's play again! \n";
 			clear_board();
-		} else
-		{
+			get_player_names();
+			print_board();
+			game_loop();
+		} else {
 			cout << "See you later! o/ \n";
 			play_again = false;
 		}
 	} while (play_again == true);
+}
+
+int main()
+{
+	get_player_names();
+	
+	print_board();
+
+	start_game();
+	game_loop();
 
 	return 0;
 }
