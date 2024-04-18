@@ -8,19 +8,22 @@ string sign{"x"};
 string player1_name, player2_name;
 string player1_sign = "x";
 string player2_sign = "o";
-void get_player_names() {
+
+void get_player_names()
+{
 	cout << "Player 1 name: ";
 	cin >> player1_name;
-	 
+
 	cout << "Player 2 name: ";
 	cin >> player2_name;
+
+	cout << "Lets start the game between Player 1: " << player1_name <<
+		" (sign: " << player1_sign << ") and Player 2: " << player2_name <<
+		" (sign: " << player2_sign << ") Good Luck! \n";
 }
 
-
-
-void print_board(){
-	cout << "Lets start the game between Player 1: " << player1_name << " (sign: " << player1_sign << ") and Player 2: "
-	<< player2_name << " (sign: " << player2_sign << ") Good Luck! \n";
+void print_board()
+{
 	cout << "|" + board[6] + "|" + board[7] + "|" + board[8] + "|\n";
 	cout << "-------\n";
 	cout << "|" + board[3] + "|" + board[4] + "|" + board[5] + "|\n";
@@ -51,6 +54,7 @@ void player_move()
 		}
 	}
 }
+
 void change_sing()
 {
 	// Change sign
@@ -64,50 +68,42 @@ void change_sing()
 	}
 }
 
-void update_board()
-{
-	
-	// Update board
-	board[x - 1] = sign;
-
-	// Print updated baord
-	cout << "|" + board[0] + "|" + board[1] + "|" + board[2] + "|\n";
-	cout << "-------\n";
-	cout << "|" + board[3] + "|" + board[4] + "|" + board[5] + "|\n";
-	cout << "-------\n";
-	cout << "|" + board[6] + "|" + board[7] + "|" + board[8] + "|\n";
-}
-
 bool check_winner()
-{	//check board to find a winner in every possible pattern to win.
+{
+	//check board to find a winner in every possible pattern to win.
 	string winner_name, winner_sign;
 	if ((board[0] == board[1] && board[1] == board[2] && board[0] != " " ||
-		board[3] == board[4] && board[4] == board[5] && board[3] != " " ||
-		board[6] == board[7] && board[7] == board[8] && board[6] != " " ||
-		board[0] == board[3] && board[3] == board[6] && board[0] != " " ||
-		board[1] == board[4] && board[4] == board[7] && board[1] != " " ||
-		board[2] == board[5] && board[5] == board[8] && board[2] != " " ||
-		board[0] == board[4] && board[4] == board[8] && board[0] != " " ||
-		board[2] == board[4] && board[4] == board[6] && board[2] != " "))
+	     board[3] == board[4] && board[4] == board[5] && board[3] != " " ||
+	     board[6] == board[7] && board[7] == board[8] && board[6] != " " ||
+	     board[0] == board[3] && board[3] == board[6] && board[0] != " " ||
+	     board[1] == board[4] && board[4] == board[7] && board[1] != " " ||
+	     board[2] == board[5] && board[5] == board[8] && board[2] != " " ||
+	     board[0] == board[4] && board[4] == board[8] && board[0] != " " ||
+	     board[2] == board[4] && board[4] == board[6] && board[2] != " "))
+	{
+		if (sign == player1_sign)
 		{
-		if (sign == player1_sign) {
 			winner_name = player1_name;
 			winner_sign = player1_sign;
-		} else {
+		}
+		else
+		{
 			winner_name = player2_name;
 			winner_sign = player2_sign;
 		}
-		cout << "Winner is: " << winner_name << " with sign: " << winner_sign << "\n";
+		cout << "Winner is: " << winner_name << " with sign: " << winner_sign <<
+			"\n";
 		return true;
-		}
-		return false;
+	}
+	return false;
 }
 
 bool check_draw()
 {
 	for (int i = 0; i < 9; i++)
 	{
-		if (board[i] == " ") {
+		if (board[i] == " ")
+		{
 			return false; //empty spot means board is not full
 		}
 	}
@@ -115,69 +111,61 @@ bool check_draw()
 	return true;
 }
 
-void start_game()
+void clear_board()
 {
-
-	while (true)
+	for (int i = 0; i < 9; i++)
 	{
-		player_move();
-		change_sing();
-		update_board();
-
-		string winner_name, winner_sign;
-        if (check_winner())
-		{
-			break;
-		}
-
-		if (check_draw())
-		{
-			break;
-		}
-	}
-}
-
-bool new_game(string question){
-	
-	cout << question << " (yes/no): ";
-	string answer;
-	cin >> answer;
-
-	return (answer == "yes");
-}
-
-void clear_board() {
-	for (int i = 0; i < 9; i++) {
 		board[i] = " ";
 	}
 }
 
-void game_loop()
+void play_again();
+
+void start_game()
 {
-	bool play_again = true;
-	do {
-		if (new_game("Do you want to play again?"))
+	print_board();
+
+	while (true)
+	{
+		player_move();
+		board[x - 1] = sign;
+		print_board();
+
+		if (check_winner())
 		{
-			cout << "Let's play again! \n";
-			clear_board();
-			get_player_names();
-			print_board();
-			game_loop();
-		} else {
-			cout << "See you later! o/ \n";
-			play_again = false;
+			break;
 		}
-	} while (play_again == true);
+		if (check_draw())
+		{
+			break;
+		}
+		change_sing();
+	}
+
+	play_again();
+}
+
+void play_again()
+{
+	cout << "Do you want to play again? (yes/no)\n";
+	string answer;
+	cin >> answer;
+
+	if (answer == "yes")
+	{
+		clear_board();
+		start_game();
+	}
+	else
+	{
+		cout << "See you later\n";
+	}
 }
 
 int main()
 {
 	get_player_names();
-	
-	print_board();
-
 	start_game();
-	game_loop();
 
 	return 0;
 }
