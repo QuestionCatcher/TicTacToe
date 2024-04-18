@@ -55,7 +55,7 @@ void player_move()
 	}
 }
 
-void change_sing()
+void change_sign()
 {
 	// Change sign
 	if (sign == "x")
@@ -139,7 +139,7 @@ void start_game()
 		{
 			break;
 		}
-		change_sing();
+		change_sign();
 	}
 
 	play_again();
